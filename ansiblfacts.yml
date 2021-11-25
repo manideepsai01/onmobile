@@ -1,0 +1,11 @@
+-
+        name: ansible facts
+        hosts: webservers
+        become: yes
+        tasks:
+                -
+                        name: get the system details
+                        copy:
+                                content: "1. system os = {{ ansible_distribution }} \n
+                                          2. sytem hostname = {{ ansible_fqdn }} \n"
+                                dest: /opt/serverdetails.txt

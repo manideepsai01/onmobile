@@ -1,0 +1,23 @@
+-
+        name: perform location action
+        hosts: webservers
+        become: yes
+        tasks:
+                -
+                        name: Get the hostname
+                        shell:
+                                hostname -f
+                        register: hostanme
+
+                -
+                        name: Get the OS name
+                        shell:
+                                cat /etc/redhat-release
+                        register: osname
+
+                -       
+                        name: write the details locally in control node
+                        local_action:
+                                shell echo '{{hostanme.stdout}};{{osname.stdout}}' >> os_details.csv
+                        become: false
+

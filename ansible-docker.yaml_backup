@@ -1,0 +1,50 @@
+-
+        name: Deploy docker container using ansible
+        hosts: webservers
+        become: yes
+        tasks:
+                -
+                        name: Copy Dockerfile and index.html file
+                        copy:
+                                src: /root/{{ item }}
+                                dest: /opt/{{ item }}
+                        with_items:
+                                - index.html
+                                - Dockerfile
+
+                -
+                        name: Remote directory
+                        shell: cd /opt; docker build -t ans-doc:01 .
+                        register: buildimage
+
+                -
+                        name: view the build 
+                        debug:
+                                var: buildimage
+                        
+                -       
+                        name: run the container 
+                        shell: cd /opt; docker run -d --name ans-dock -p 8040:80 ans-doc:01   
+                        register: showrunning
+                                
+
+                -
+                        name: View the run 
+                        debug:
+                                var: showrunning
+
+
+                -
+                        name: show running containers
+                        shell: docker ps -a
+                        register: runcontainer
+
+
+                -
+                        name: view running containers
+                        debug:
+                                var: runcontainer
+
+
+
+                               

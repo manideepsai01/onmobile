@@ -1,0 +1,20 @@
+-
+        name: file and directory creation
+        hosts: webservers
+        become: yes
+        tasks:
+                -
+                        name: create dir
+                        file:
+                                path: /onmobile-root
+                                state: directory
+                                mode: '0755'
+                -
+                        name: file in dir
+                        copy:
+                                content: " Welcome to ansible"
+                                dest: /onmobile-root/welcome.txt
+
+                                
+
+ 
